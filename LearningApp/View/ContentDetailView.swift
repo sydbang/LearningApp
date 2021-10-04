@@ -25,7 +25,7 @@ struct ContentDetailView: View {
                     .cornerRadius(10)
             }
             // TODO: Description
-            
+            CodeTextView()
             // Show Next lesson button, only if there is a next lesson
             
             if model.hasNextLesson() {
@@ -45,7 +45,6 @@ struct ContentDetailView: View {
                             .foregroundColor(.white)
                             .bold()
                     }
-                    
                 })
             }
         }
