@@ -10,6 +10,7 @@ import SwiftUI
 struct TestView: View {
     
     @EnvironmentObject var model:ContentModel
+    
     @State var selectedAnswerIndex:Int?
     @State var numCorrect = 0
     @State var submitted = false
@@ -70,9 +71,18 @@ struct TestView: View {
                 }
                 // Submit Button
                 Button {
-                    // Change submitted
-                    submitted = true
-                    
+                    // Check if answer has been submitted
+                    if submitted == true {
+                         // move to next question
+                        model.nextQuestion()
+                        
+                        // Reset properties
+                        submitted = false
+                        selectedAnswerIndex = nil
+                    } else {
+                        // Change submitted
+                        submitted = true
+                    }
                     // Check the answer and increase the counter if correct
                     if selectedAnswerIndex == model.currentQuestion!.correctIndex {
                         numCorrect += 1
@@ -82,7 +92,8 @@ struct TestView: View {
                     ZStack {
                         RectangleCard(color: .green)
                             .frame(height: 48)
-                        Text("Submit")
+                        
+                        Text(buttonText)
                             .bold()
                             .foregroundColor(Color.white)
                     }
@@ -92,6 +103,21 @@ struct TestView: View {
                 
             }
             .navigationBarTitle("\(model.currentModule?.category ?? "") Test")
+        }
+    }
+    
+    //computed property
+    var buttonText: String {
+        // Check if answer has been submitted
+        if submitted == true {
+            if model.currentQuestionIndex + 1 == model.currentModule!.test.questions.count {
+                // This is the last question
+                return "Finish"
+            } else {
+                return "Next"
+            }
+        } else {
+            return "Submit"
         }
     }
 }
