@@ -17,7 +17,6 @@ struct TestView: View {
     
     var body: some View {
         if model.currentQuestion != nil {
-            
             VStack (alignment: .leading){
                 // Question number
                 Text("Question \(model.currentQuestionIndex + 1) of \(model.currentModule?.test.questions.count ?? 0)")
@@ -73,19 +72,20 @@ struct TestView: View {
                 Button {
                     // Check if answer has been submitted
                     if submitted == true {
-                         // move to next question
-                        model.nextQuestion()
-                        
                         // Reset properties
                         submitted = false
+                        
+                        // move to next question
+                        model.nextQuestion()
+                        
                         selectedAnswerIndex = nil
                     } else {
                         // Change submitted
                         submitted = true
-                    }
-                    // Check the answer and increase the counter if correct
-                    if selectedAnswerIndex == model.currentQuestion!.correctIndex {
-                        numCorrect += 1
+                        // Check the answer and increase the counter if correct
+                        if selectedAnswerIndex == model.currentQuestion!.correctIndex {
+                            numCorrect += 1
+                        }
                     }
                     
                 } label: {
@@ -103,6 +103,10 @@ struct TestView: View {
                 
             }
             .navigationBarTitle("\(model.currentModule?.category ?? "") Test")
+        }
+        else {
+            // if currentkQuestion is nill we show result view
+            TestResultView(numCorrect: numCorrect)
         }
     }
     

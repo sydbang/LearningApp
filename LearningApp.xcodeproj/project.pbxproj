@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3B08B198270CAEBF0099EF65 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B08B197270CAEBF0099EF65 /* TestView.swift */; };
+		3B08B19C270CD6220099EF65 /* TestResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B08B19B270CD6220099EF65 /* TestResultView.swift */; };
 		3B5502F527050327007A0A56 /* LearningApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5502F427050327007A0A56 /* LearningApp.swift */; };
 		3B5502F727050327007A0A56 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5502F627050327007A0A56 /* HomeView.swift */; };
 		3B5502F927050333007A0A56 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3B5502F827050333007A0A56 /* Assets.xcassets */; };
@@ -28,6 +29,7 @@
 
 /* Begin PBXFileReference section */
 		3B08B197270CAEBF0099EF65 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
+		3B08B19B270CD6220099EF65 /* TestResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestResultView.swift; sourceTree = "<group>"; };
 		3B5502F127050327007A0A56 /* LearningApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LearningApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B5502F427050327007A0A56 /* LearningApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningApp.swift; sourceTree = "<group>"; };
 		3B5502F627050327007A0A56 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 				3B08B197270CAEBF0099EF65 /* TestView.swift */,
 				3B55036A270B5662007A0A56 /* CodeTextView.swift */,
 				3B55038C270B9128007A0A56 /* RectangleCard.swift */,
+				3B08B19B270CD6220099EF65 /* TestResultView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -229,6 +232,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3B08B198270CAEBF0099EF65 /* TestView.swift in Sources */,
+				3B08B19C270CD6220099EF65 /* TestResultView.swift in Sources */,
 				3B5502F727050327007A0A56 /* HomeView.swift in Sources */,
 				3B55031827076588007A0A56 /* HomeViewRow.swift in Sources */,
 				3B55031B2707698A007A0A56 /* ContentView.swift in Sources */,
