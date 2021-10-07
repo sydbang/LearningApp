@@ -115,8 +115,12 @@ class ContentModel: ObservableObject {
             do {
                 let modules = try decoder.decode([Module].self, from: data!)
                 
-                // Append parsed modules into modules property
-                self.modules += modules
+                //What ever you are going to make view code to update this will make sure that main thread takes care of it when it gets the chance (and the back ground thread doesn't update the ui)
+                DispatchQueue.main.async {
+                    // Append parsed modules into modules property
+                    self.modules += modules
+                }
+                
             } catch {
                 print(error)
             }
@@ -161,6 +165,10 @@ class ContentModel: ObservableObject {
     
     // MARK: - Check next lesson exist
     func hasNextLesson() -> Bool {
+        
+        guard currentModule != nil else {
+            return false
+        }
         return (currentLessonIndex + 1 < currentModule!.content.lessons.count)
     }
     
