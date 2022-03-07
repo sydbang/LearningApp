@@ -37,17 +37,24 @@ class ContentModel: ObservableObject {
     
     init() {
         
-        // Pare local included json data
-        getLocalData()
+        // Pare local style.html
+        getLocalStyle()
+        
+        // Get Database modules
+        getDatabaseModules()
         
         // Download remote json file and parse data
-        getRemoteData()
+        // getRemoteData()
     }
     
     // MARK: - Data methods
     
-    func getLocalData() {
+    func getDatabaseModules() {
         
+    }
+    
+    func getLocalStyle() {
+        /*
         let jsonUrl = Bundle.main.url(forResource: "data", withExtension: "json")
         do {
             let jsonData = try Data(contentsOf: jsonUrl!)
@@ -67,7 +74,7 @@ class ContentModel: ObservableObject {
             
         } catch {
             print(error)
-        }
+        }*/
         
         // Parse the style data
         let styleUrl = Bundle.main.url(forResource: "style", withExtension: "html")
