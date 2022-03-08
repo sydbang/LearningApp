@@ -6,8 +6,11 @@
 //
 
 import Foundation
+import Firebase
 
 class ContentModel: ObservableObject {
+    
+    let db = Firestore.firestore()
     
     // List of modules
     @Published var modules = [Module]()
@@ -50,7 +53,35 @@ class ContentModel: ObservableObject {
     // MARK: - Data methods
     
     func getDatabaseModules() {
+        // specify path
+        let collection = db.collection("Modules")
         
+        // get document
+        collection.getDocuments { (snapShot, error) in
+            if error == nil && snapShot != nil {
+                
+                // Create an array for the modules
+                var modules = [Module]()
+                
+                // Loop through the documents returned
+                for doc in snapShot!.documents {
+                    
+                    // Create a new module instance
+                    var m = Module()
+                    // Parse out the values from the document into the module instance
+                    
+                    // Add it to our array
+                    
+                    
+                }
+                
+                // Assign our modules to the published property
+                // Since this will effect view code so: what ever that is relying on that published property it will update automatically
+                DispatchQueue.main.async {
+                    self.modules = modules
+                }
+            }
+        }
     }
     
     func getLocalStyle() {
