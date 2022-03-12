@@ -24,7 +24,7 @@ class ContentModel: ObservableObject {
     var currentLessonIndex = 0
     
     // Current Question
-    @Published var currentQuestion: Questions?
+    @Published var currentQuestion: Question?
     var currentQuestionIndex = 0
     
     // Current model explanation
@@ -69,10 +69,26 @@ class ContentModel: ObservableObject {
                     // Create a new module instance
                     var m = Module()
                     // Parse out the values from the document into the module instance
+                    m.id = doc["id"] as? String ?? UUID().uuidString
+                    m.category = doc["category"] as? String ?? ""
                     
+                    // Parse the lesson content
+                    let contentMap = doc["content"] as! [String:Any] // value can be multiple type
+                    m.content.id = contentMap["id"] as? String ?? ""
+                    m.content.description = contentMap["description"] as? String ?? ""
+                    m.content.image = contentMap["image"] as? String ?? ""
+                    m.content.time = contentMap["time"] as? String ?? ""
+                    
+                    // Parse the test content
+                    let testMap = doc["test"] as! [String:Any] // casting
+                    
+                    m.test.id = testMap["id"] as? String ?? ""
+                    m.test.description = testMap["description"] as? String ?? ""
+                    m.test.image = testMap["image"] as? String ?? ""
+                    m.test.time = testMap["time"] as? String ?? ""
+                        
                     // Add it to our array
-                    
-                    
+                    modules.append(m)
                 }
                 
                 // Assign our modules to the published property
@@ -171,7 +187,7 @@ class ContentModel: ObservableObject {
     
     // MARK: - Module navigation methods
     
-    func beginModule(_ moduleid:Int) {
+    func beginModule(_ moduleid: String) {
         
         // Find the index or this module id
         for index in 0..<modules.count {
@@ -186,7 +202,7 @@ class ContentModel: ObservableObject {
     
     // MARK: - Lesson navigation method
     
-    func beginLesson(_ lessonIndex:Int) {
+    func beginLesson(_ lessonIndex: Int) {
         
         // Check that the lesson index is within range of module lessons
         if lessonIndex < currentModule!.content.lessons.count {
@@ -210,7 +226,7 @@ class ContentModel: ObservableObject {
         return (currentLessonIndex + 1 < currentModule!.content.lessons.count)
     }
     
-    func beginTest(_ moduleId: Int) {
+    func beginTest(_ moduleId: String) {
         // Set the current module
         beginModule(moduleId)
         // Set the current question
