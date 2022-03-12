@@ -42,7 +42,9 @@ struct HomeView: View {
                                 NavigationLink(
                                     destination: TestView()
                                         .onAppear(perform: {
-                                            model.beginTest(module.id)
+                                            model.getQuestions(module: module) {
+                                                model.beginTest(module.id)
+                                            }
                                         }),
                                     tag: module.id.hash,
                                     selection: $model.currentTestSelected,

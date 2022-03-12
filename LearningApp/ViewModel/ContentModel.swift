@@ -106,10 +106,40 @@ class ContentModel: ObservableObject {
         }
     }
     
-    func getQuestions(module: Module) {
+    func getQuestions(module: Module, completion: @escaping () -> Void) {
         // Specify path
         let collection = db.collection("modules").document(module.id).collection("questions")
         
+        //Get documnents
+        collection.getDocuments { (snapshot, error) in
+            if error == nil && snapshot != nil {
+                
+                var questions = [Question]()
+                
+                for doc in snapshot!.documents {
+                    
+                    // Create new q instance
+                    var q = Question()
+                    
+                    q.id = doc["id"] as? String ?? UUID().uuidString
+                    q.answers = doc["answers"] as? [String] ?? [""]
+                    q.content = doc["content"] as? String ?? ""
+                    q.correctIndex = doc["correctIndex"] as? Int ?? 0
+                    
+                    questions.append(q)
+                }
+                
+                // add questions to Modules
+                for (index, m) in self.modules.enumerated() {
+                    if m.id == module.id {
+                        //modules.test.questions = questions <- cant do since its struct
+                        self.modules[index].test.questions = questions
+                        
+                        completion()
+                    }
+                }
+            }
+        }
         
     }
     
