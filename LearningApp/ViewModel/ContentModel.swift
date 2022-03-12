@@ -32,7 +32,6 @@ class ContentModel: ObservableObject {
     
     // Current selecte content and test
     @Published var currentContentSelected: Int?
-    
     @Published var currentTestSelected:Int?
     
     var styleData:Data?
@@ -54,7 +53,7 @@ class ContentModel: ObservableObject {
     
     func getDatabaseModules() {
         // specify path
-        let collection = db.collection("Modules")
+        let collection = db.collection("modules")
         
         // get document
         collection.getDocuments { (snapShot, error) in
