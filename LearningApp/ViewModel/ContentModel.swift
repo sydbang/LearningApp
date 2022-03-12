@@ -43,7 +43,9 @@ class ContentModel: ObservableObject {
         getLocalStyle()
         
         // Get Database modules
-        getDatabaseModules()
+        getModules()
+        
+        
         
         // Download remote json file and parse data
         // getRemoteData()
@@ -51,7 +53,67 @@ class ContentModel: ObservableObject {
     
     // MARK: - Data methods
     
-    func getDatabaseModules() {
+    func getLessons(module: Module, completion: @escaping () -> Void) {
+        
+        // Specify path
+        let collection = db.collection("modules").document(module.id).collection("lessons")
+        
+        // Get documents
+        collection.getDocuments { (snapshot, error) in
+            if error == nil && snapshot != nil {
+                
+                // Create an array for lessons
+                var lessons = [Lesson]()
+                
+                // Loop through the documents in the snapshot and build array of Lessons
+                for doc in snapshot!.documents {
+                    
+                    // Create a new lesson instance
+                    // we changed our model file to initialize parameters so that we don't have to parse out the doucment into variables and pass all of them in when creating an instance. Super easy way would have been to pass in a decoder to automatically parse the data into module instance but we would have to manually specify all parameters.
+                    var l = Lesson()
+                    
+                    // Parse out the value from the document into lesson instance
+                    l.id = doc["id"] as? String ?? UUID().uuidString
+                    l.title = doc["title"] as? String ?? ""
+                    l.video = doc["video"] as? String ?? ""
+                    l.duration = doc["duration"] as? String ?? ""
+                    l.explanation = doc["explanation"] as? String ?? ""
+                    
+                    // Add it to our array
+                    lessons.append(l)
+                }
+                
+                // Setting the lessons to the module
+                
+                // note: that you can't just do:
+                // module.content.lessons = lessons
+                // structs get passed around as copies class gets passed around as reference
+                
+                // Loop through published modules array and find the one that matches the id of the copy that got passed in
+                for (index, m) in self.modules.enumerated() {
+                    if module.id == m.id {
+
+                        // m.content.lessons = lessons
+                        //still get an error that m is a let constant - this is because m is still a struct and creates copies - so we loop through .enumerated()
+                        
+                        self.modules[index].content.lessons = lessons
+                        
+                        // Call completion closure
+                        completion()
+                    }
+                }
+            }
+        }
+    }
+    
+    func getQuestions(module: Module) {
+        // Specify path
+        let collection = db.collection("modules").document(module.id).collection("questions")
+        
+        
+    }
+    
+    func getModules() {
         // specify path
         let collection = db.collection("modules")
         

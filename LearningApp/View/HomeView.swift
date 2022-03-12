@@ -26,7 +26,9 @@ struct HomeView: View {
                                 NavigationLink(
                                     destination: ContentView()
                                         .onAppear(perform: {
-                                            model.beginModule(module.id)
+                                            model.getLessons(module: module) {
+                                                model.beginModule(module.id)
+                                            }
                                         }),
                                     tag: module.id.hash,
                                     selection: $model.currentContentSelected,
