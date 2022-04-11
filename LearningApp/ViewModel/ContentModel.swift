@@ -51,6 +51,8 @@ class ContentModel: ObservableObject {
         // getRemoteData()
     }
     
+    
+    
     // MARK: - Data methods
     
     func getLessons(module: Module, completion: @escaping () -> Void) {
