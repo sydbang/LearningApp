@@ -9,20 +9,35 @@ import SwiftUI
 
 struct LaunchView: View {
     
-    @State var loggedIn = false
+    @EnvironmentObject var model: ContentModel
     
     var body: some View {
         
-        if loggedIn == false {
+        if model.loggedIn == false {
             // Show loggin view
             LoginView()
                 .onAppear {
                     // Check if the user is logged in or out
-                    
+                    model.checkLogin()
                 }
         } else {
             // Show logged in view
-            
+            TabView {
+                HomeView()
+                    .tabItem {
+                        VStack {
+                            Image(systemName: "book")
+                            Text("Learn")
+                        }
+                    }
+                ProfileView()
+                    .tabItem {
+                        VStack {
+                            Image(systemName: "person")
+                            Text("Profile")
+                        }
+                    }
+            }
         }
         
     }
