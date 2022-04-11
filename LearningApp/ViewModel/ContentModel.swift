@@ -38,17 +38,6 @@ class ContentModel: ObservableObject {
     
     
     init() {
-        
-        // Pare local style.html
-        getLocalStyle()
-        
-        // Get Database modules
-        getModules()
-        
-        
-        
-        // Download remote json file and parse data
-        // getRemoteData()
     }
     
     
@@ -145,7 +134,11 @@ class ContentModel: ObservableObject {
         
     }
     
-    func getModules() {
+    func getDatabaseData() {
+        
+        // Pare local style.html
+        getLocalStyle()
+        
         // specify path
         let collection = db.collection("modules")
         
