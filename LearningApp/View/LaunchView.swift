@@ -37,7 +37,9 @@ struct LaunchView: View {
                             Text("Profile")
                         }
                     }
-            }
+            }.onAppear(perform: {
+                model.getDatabaseData()
+            })
         }
         
     }

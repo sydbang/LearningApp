@@ -49,6 +49,11 @@ class ContentModel: ObservableObject {
     func checkLogin() {
         // Check if there's a current user 
         loggedIn = Auth.auth().currentUser != nil ? true: false
+        
+        // Check if user meta data has been fetched. If the user was already logged in from a previous session, we need to get their data in a separate call
+        if UserService.shared.user.name == "" {
+            getUserData()
+        }
     }
     
     
@@ -213,9 +218,9 @@ class ContentModel: ObservableObject {
             let data = snapshot!.data()
             let user = UserService.shared.user
             user.name = data?["name"] as? String ?? ""
-            user.lastModule = data?["lastModule"] as? Int ?? nil
-            user.lastLesson = data?["lastLesson"] as? Int ?? nil
-            user.lastQuestion = data?["lastQuestion"] as? Int ?? nil
+            user.lastModule = data?["lastModule"] as? Int //?? nil
+            user.lastLesson = data?["lastLesson"] as? Int //?? nil
+            user.lastQuestion = data?["lastQuestion"] as? Int //?? nil
             
         }
         
