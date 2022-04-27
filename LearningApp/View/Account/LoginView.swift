@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 struct LoginView: View {
     
@@ -14,6 +15,7 @@ struct LoginView: View {
     @State var email = ""
     @State var name = ""
     @State var password = ""
+    @State var errorMessage: String?
     
     var buttonText: String {
         if loginMode == Constants.LoginMode.login {
@@ -47,19 +49,51 @@ struct LoginView: View {
             })
             .pickerStyle(SegmentedPickerStyle())
             // Form
-            TextField("Email", text: $email)
-            
-            if loginMode == Constants.LoginMode.createAccount {
-                TextField("Name", text: $name)
+            Group {
+                TextField("Email", text: $email)
+                
+                if loginMode == Constants.LoginMode.createAccount {
+                    TextField("Name", text: $name)
+                }
+                
+                SecureField("Password", text: $password)
+                
+                if errorMessage != nil {
+                    Text(errorMessage!)
+                }
             }
-            
-            SecureField("Password", text: $password)
             // Button
             Button {
                 if loginMode == Constants.LoginMode.login {
                     // Log the usre in
+                    Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
+                        
+                        // Check for errors
+                        guard error == nil else {
+                            self.errorMessage = error!.localizedDescription
+                            return
+                        }
+                        
+                        // Clear error message
+                        self.errorMessage = nil
+                        // Todo: Fetch the user meta data
+                        
+                        // Change the view to logged in view
+                        model.checkLogin()
+                    }
                 } else {
                     // Create a new account
+                    Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
+                        guard error == nil else {
+                            self.errorMessage = error!.localizedDescription
+                            return
+                        }
+                        self.errorMessage = nil
+                        
+                        // Save the first name
+                        
+                        // Change the view to logged in view
+                    }
                 }
             } label: {
                 ZStack {
