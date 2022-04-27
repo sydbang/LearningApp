@@ -196,6 +196,31 @@ class ContentModel: ObservableObject {
         }
     }
     
+    func getUserData() {
+        // Check that there is a loged in user
+        guard Auth.auth().currentUser != nil else {
+            return
+        }
+        // Get the meta data for the user
+        let db = Firestore.firestore()
+        let ref = db.collection("users").document(Auth.auth().currentUser!.uid)
+        ref.getDocument { (snapshot, error) in
+            // Check there is no error
+            guard error == nil, snapshot != nil else {
+                return
+            }
+            // Parse the data out and set the user meta data
+            let data = snapshot!.data()
+            let user = UserService.shared.user
+            user.name = data?["name"] as? String ?? ""
+            user.lastModule = data?["lastModule"] as? Int ?? nil
+            user.lastLesson = data?["lastLesson"] as? Int ?? nil
+            user.lastQuestion = data?["lastQuestion"] as? Int ?? nil
+            
+        }
+        
+    }
+    
     func getLocalStyle() {
         /*
         let jsonUrl = Bundle.main.url(forResource: "data", withExtension: "json")

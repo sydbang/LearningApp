@@ -7,6 +7,7 @@
 
 import SwiftUI
 import FirebaseAuth
+import Firebase
 
 struct LoginView: View {
     
@@ -76,8 +77,8 @@ struct LoginView: View {
                         
                         // Clear error message
                         self.errorMessage = nil
-                        // Todo: Fetch the user meta data
-                        
+                        // Fetch the user meta data
+                        model.getUserData()
                         // Change the view to logged in view
                         model.checkLogin()
                     }
@@ -91,8 +92,18 @@ struct LoginView: View {
                         self.errorMessage = nil
                         
                         // Save the first name
+                        let firebaseUser = Auth.auth().currentUser
+                        let db = Firestore.firestore()
+                        let ref = db.collection("users").document(firebaseUser!.uid)
+                        
+                        ref.setData(["name":name], merge: true)
+                        
+                        // Update the user meta data
+                        let user = UserService.shared.user
+                        user.name = name
                         
                         // Change the view to logged in view
+                        model.checkLogin()
                     }
                 }
             } label: {
