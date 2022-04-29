@@ -59,6 +59,28 @@ class ContentModel: ObservableObject {
     
     // MARK: - Data methods
     
+    func saveData() {
+        
+        // optional binding
+        if let loggedInUser = Auth.auth().currentUser {
+            
+            // Save the progress data locally
+            let user = UserService.shared.user
+            
+            user.lastModule = currentModuleIndex
+            user.lastLesson = currentLessonIndex
+            user.lastQuestion = currentQuestionIndex
+            
+            // Save it to the database
+            let db = Firestore.firestore()
+            let ref = db.collection("users").document(loggedInUser.uid)
+            ref.setData(["lastModule":user.lastModule,
+                         "lastLesson":user.lastLesson,
+                         "lastQuestion":user.lastQuestion], merge: true)
+        }
+        
+    }
+    
     func getLessons(module: Module, completion: @escaping () -> Void) {
         
         // Specify path
@@ -380,6 +402,9 @@ class ContentModel: ObservableObject {
             currentLesson = nil
             currentLessonIndex = 0
         }
+        
+        // Save the progress
+        saveData()
     }
     
     // MARK: - Advance to the next question
@@ -396,6 +421,9 @@ class ContentModel: ObservableObject {
             currentQuestion = nil
             currentQuestionIndex = 0
         }
+        
+        // Save the progress
+        saveData()
     }
     
     // MARK: - Code Styling

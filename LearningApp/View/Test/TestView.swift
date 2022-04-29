@@ -80,6 +80,9 @@ struct TestView: View {
                         
                         selectedAnswerIndex = nil
                     } else {
+                        
+                        // TODO
+                        
                         // Change submitted
                         submitted = true
                         // Check the answer and increase the counter if correct
