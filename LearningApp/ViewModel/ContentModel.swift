@@ -74,9 +74,9 @@ class ContentModel: ObservableObject {
             // Save it to the database
             let db = Firestore.firestore()
             let ref = db.collection("users").document(loggedInUser.uid)
-            ref.setData(["lastModule":user.lastModule,
-                         "lastLesson":user.lastLesson,
-                         "lastQuestion":user.lastQuestion], merge: true)
+            ref.setData(["lastModule":user.lastModule ?? NSNull(),
+                         "lastLesson":user.lastLesson ?? NSNull(),
+                         "lastQuestion":user.lastQuestion ?? NSNull()], merge: true)
         }
         
     }

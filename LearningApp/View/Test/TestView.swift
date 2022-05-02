@@ -15,6 +15,7 @@ struct TestView: View {
     @State var numCorrect = 0
     @State var submitted = false
     
+    
     var body: some View {
         if model.currentQuestion != nil {
             VStack (alignment: .leading){
@@ -109,6 +110,7 @@ struct TestView: View {
         }
         else {
             // if currentkQuestion is nill we show result view
+           
             TestResultView(numCorrect: numCorrect)
         }
     }
