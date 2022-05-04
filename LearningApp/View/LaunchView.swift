@@ -40,6 +40,10 @@ struct LaunchView: View {
             }.onAppear(perform: {
                 model.getDatabaseData()
             })
+            .onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
+                // Save the progress to the database when the app is moving from active to background (you listen to the notification center notification as "publisher")
+                model.saveData(writeToDataBase: true)
+            }
         }
         
     }

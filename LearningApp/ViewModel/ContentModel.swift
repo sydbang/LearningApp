@@ -59,7 +59,7 @@ class ContentModel: ObservableObject {
     
     // MARK: - Data methods
     
-    func saveData() {
+    func saveData(writeToDataBase: Bool = false) {
         
         // optional binding
         if let loggedInUser = Auth.auth().currentUser {
@@ -71,12 +71,15 @@ class ContentModel: ObservableObject {
             user.lastLesson = currentLessonIndex
             user.lastQuestion = currentQuestionIndex
             
-            // Save it to the database
-            let db = Firestore.firestore()
-            let ref = db.collection("users").document(loggedInUser.uid)
-            ref.setData(["lastModule":user.lastModule ?? NSNull(),
-                         "lastLesson":user.lastLesson ?? NSNull(),
-                         "lastQuestion":user.lastQuestion ?? NSNull()], merge: true)
+            if writeToDataBase {
+            
+                // Save it to the database
+                let db = Firestore.firestore()
+                let ref = db.collection("users").document(loggedInUser.uid)
+                ref.setData(["lastModule":user.lastModule ?? NSNull(),
+                             "lastLesson":user.lastLesson ?? NSNull(),
+                             "lastQuestion":user.lastQuestion ?? NSNull()], merge: true)
+            }
         }
         
     }
